@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <None Include="..\..\TopDownExample.uproject" />
+    <Filter Include="Source">
+      <UniqueIdentifier>{0222A523-B5F8-4ED8-A722-E81CA3C0571B}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\TopDownExample.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <None Include="..\..\Source\TopDownExampleEditor.Target.cs">
+      <Filter>Source</Filter>
+    </None>
+    <Filter Include="Config">
+      <UniqueIdentifier>{435613D6-1BEB-4B3E-B8A3-517648FAC764}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Config\DefaultEditor.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultEngine.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultGame.ini">
+      <Filter>Config</Filter>
+    </None>
+    <None Include="..\..\Config\DefaultInput.ini">
+      <Filter>Config</Filter>
+    </None>
+    <Filter Include="Source\TopDownExample">
+      <UniqueIdentifier>{385A4B38-DF89-4336-B4D8-A33E5A50299E}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\TopDownExample\TopDownExample.Build.cs">
+      <Filter>Source\TopDownExample</Filter>
+    </None>
+    <ClCompile Include="..\..\Source\TopDownExample\TopDownExample.cpp">
+      <Filter>Source\TopDownExample</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TopDownExample\TopDownExample.h">
+      <Filter>Source\TopDownExample</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TopDownExample\TopDownExampleCharacter.cpp">
+      <Filter>Source\TopDownExample</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TopDownExample\TopDownExampleCharacter.h">
+      <Filter>Source\TopDownExample</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TopDownExample\TopDownExampleGameMode.cpp">
+      <Filter>Source\TopDownExample</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TopDownExample\TopDownExampleGameMode.h">
+      <Filter>Source\TopDownExample</Filter>
+    </ClInclude>
+    <ClCompile Include="..\..\Source\TopDownExample\TopDownExamplePlayerController.cpp">
+      <Filter>Source\TopDownExample</Filter>
+    </ClCompile>
+    <ClInclude Include="..\..\Source\TopDownExample\TopDownExamplePlayerController.h">
+      <Filter>Source\TopDownExample</Filter>
+    </ClInclude>
+    <Filter Include="Source\TopDownExample\Resources">
+      <UniqueIdentifier>{A64D9960-C466-4C2E-BF09-7586FAE70C69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\TopDownExample\Resources\Windows">
+      <UniqueIdentifier>{4AE1AAAC-CA46-4E12-BD36-6C454E07D0A8}</UniqueIdentifier>
+    </Filter>
+    <None Include="..\..\Source\TopDownExample\Resources\Windows\TopDownExample.ico">
+      <Filter>Source\TopDownExample\Resources\Windows</Filter>
+    </None>
+    <ResourceCompile Include="..\..\Source\TopDownExample\Resources\Windows\TopDownExample.rc">
+      <Filter>Source\TopDownExample\Resources\Windows</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source\Classes">
+      <UniqueIdentifier>{2bb48104-00c7-4442-93c8-319e1af1978a}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Classes\Usable.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Classes\Usable.h" />
+  </ItemGroup>
+</Project>
