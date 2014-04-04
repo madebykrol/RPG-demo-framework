@@ -9,12 +9,25 @@ ATopDownExamplePlayerController::ATopDownExamplePlayerController(const class FPo
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::CardinalCross;
+
+
 }
 
 void ATopDownExamplePlayerController::PlayerTick(float DeltaTime)
 {
 	Super::PlayerTick(DeltaTime);
 
+	// Look for hoover
+
+	const ULocalPlayer* LocalPlayer = Cast<ULocalPlayer>(Player);
+	FHitResult Hit;
+	FVector2D ScreenPoint = LocalPlayer->ViewportClient->GetMousePosition();
+	if (GetHitResultAtScreenPosition(ScreenPoint, COLLISION_WEAPON, true, Hit))
+	{
+		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Moused over"));
+	}
+
+	
 	// keep updating the destination every tick while desired
 	if (bMoveToMouseCursor)
 	{
@@ -111,28 +124,18 @@ void ATopDownExamplePlayerController::OnMouseClickReleased()
 
 	if (Pawn)
 	{
-		UWorld* WorldReference = GetWorld();
-		FVector DestLocation = ClickHit.ImpactPoint;
+		float distance = FVector::Dist(ClickHit.ImpactPoint, Pawn->GetActorLocation());
 
-		FCollisionQueryParams TraceParams = FCollisionQueryParams(FName(TEXT("RV_Trace")), true, this);
-		TraceParams.bTraceComplex = true;
-		TraceParams.AddIgnoredActor(Pawn);
+		if (distance < 200) {
 
-		TArray<FHitResult> HitResults = TArray<FHitResult>();
+			IMouseInteractable * object = InterfaceCast<IMouseInteractable>(ClickHit.GetActor());
 
-		if (WorldReference->LineTraceMulti(HitResults, Pawn->GetActorLocation(), DestLocation, TraceParams, NULL)) {
+			if (object) {
 
-			FHitResult Hit = HitResults[0];
-			IItemContainer * containerObject = InterfaceCast<IItemContainer>(Hit.GetActor());
-
-			if (containerObject) {
-				
-				containerObject->OnOpen(this);
+				object->OnMouseReleased(this);
 			}
-
-
-
 		}
+
 	}
 
 	bMoveToMouseCursor = false;

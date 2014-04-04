@@ -8,5 +8,8 @@
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTopDownExample, Log, All);
 
+#define COLLISION_WEAPON		ECC_GameTraceChannel1
+#define COLLISION_PROJECTILE	ECC_GameTraceChannel2
+
 
 #endif

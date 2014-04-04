@@ -4,7 +4,7 @@
 #include "TopDownExampleCharacter.generated.h"
 
 UCLASS(Blueprintable)
-class ATopDownExampleCharacter : public ACharacter, public IGameCharacter, public IMouseInteracable
+class ATopDownExampleCharacter : public ACharacter, public IGameCharacter, public IMouseInteractable
 {
 	GENERATED_UCLASS_BODY()
 

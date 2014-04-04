@@ -1,9 +1,9 @@
 #pragma once
-#include "IMouseInteractable.h"
-#include "IMouseInteractable.generated.h"
+#include "TopDownExample.h"
+#include "MouseInteractable.generated.h"
 
 UINTERFACE(MinimalAPI)
-class UMouseInteracable :public UInterface
+class UMouseInteractable :public UInterface
 {
 	GENERATED_UINTERFACE_BODY()
 };

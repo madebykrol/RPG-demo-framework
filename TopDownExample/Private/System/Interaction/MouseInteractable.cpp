@@ -1,9 +1,8 @@
 #pragma once
+#include "TopDownExample.h"
 
-#include "IMouseInteractable.h";
 
-
-UMouseInteracable::UMouseInteracable(const class FPostConstructInitializeProperties& PCIP)
+UMouseInteractable::UMouseInteractable(const class FPostConstructInitializeProperties& PCIP)
 : Super(PCIP)
 {
 	// Default Constructor code.

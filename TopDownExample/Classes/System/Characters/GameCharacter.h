@@ -1,7 +1,7 @@
 #pragma once
 
 #include "TopDownExample.h"
-#include "IGameCharacter.generated.h"
+#include "GameCharacter.generated.h"
 
 UINTERFACE(MinimalAPI)
 class UGameCharacter :public UInterface
@@ -13,8 +13,8 @@ class IGameCharacter
 {
 	GENERATED_IINTERFACE_BODY()
 
-	virtual OnTakeDmg();
-	virtual OnDealDmg();
-	virtual GetHealth();
+	virtual void OnTakeDmg();
+	virtual void OnDealDmg();
+	virtual void GetHealth();
 
 };

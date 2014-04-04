@@ -12,6 +12,8 @@ protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
 
+	IMouseInteractionHandler* MouseInteractionHandler;
+
 	// Begin PlayerController interface
 	virtual void PlayerTick(float DeltaTime) OVERRIDE;
 	virtual void SetupInputComponent() OVERRIDE;
