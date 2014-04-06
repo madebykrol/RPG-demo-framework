@@ -12,8 +12,8 @@ class IMouseInteractable
 {
 	GENERATED_IINTERFACE_BODY()
 
-	virtual void OnMousePressed(AController* user);
-	virtual void OnMouseReleased(AController* user);
-	virtual void OnMouseHoverIn(AController* user);
-	virtual void OnMouseHoverOut(AController* user);
+	virtual void OnMousePressed(AController* player);
+	virtual void OnMouseReleased(AController* player);
+	virtual void OnMouseHoverIn(AController* player);
+	virtual void OnMouseHoverOut(AController* player);
 };

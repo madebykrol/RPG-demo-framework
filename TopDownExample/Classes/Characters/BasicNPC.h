@@ -13,8 +13,14 @@ class ABasicNPC : public ACharacter, public  IGameCharacter, public IMouseIntera
 {
 	GENERATED_UCLASS_BODY()
 
-	void ABasicNPC::OnTakeDmg(); 
+	void OnTakeDmg(); 
 
-	void ABasicNPC::OnMouseReleased(AController* user);
+	void OnMousePressed(AController* player);
+
+	void OnMouseReleased(AController* player);
+
+	void OnMouseHoverIn(AController* player);
+
+	void OnMouseHoverOut(AController* player);
 	
 };

@@ -16,3 +16,31 @@ void AAItemContainer::OnOpen(AController * user)
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Open chest"));
 	}
 }
+
+void AAItemContainer::OnMousePressed(AController* user)
+{
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Pressed"));
+	}
+}
+
+void AAItemContainer::OnMouseReleased(AController* user)
+{
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released"));
+	}
+}
+
+void AAItemContainer::OnMouseHoverIn(AController* user)
+{
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hover In"));
+	}
+}
+
+void AAItemContainer::OnMouseHoverOut(AController* user)
+{
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hoover Out"));
+	}
+}

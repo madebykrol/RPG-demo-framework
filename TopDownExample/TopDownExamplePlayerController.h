@@ -8,11 +8,13 @@ class ATopDownExamplePlayerController : public APlayerController
 {
 	GENERATED_UCLASS_BODY()
 
+
 protected:
 	/** True if the controlled character should navigate to the mouse cursor. */
 	uint32 bMoveToMouseCursor : 1;
 
-	IMouseInteractionHandler* MouseInteractionHandler;
+	UPROPERTY()
+	UMouseInteractionHandler * MouseInteractionHandler;
 
 	// Begin PlayerController interface
 	virtual void PlayerTick(float DeltaTime) OVERRIDE;
@@ -35,6 +37,8 @@ protected:
 	/** Called for side to side input */
 	void MoveRight(float Val);
 	void MoveForward(float Val);
+
+	
 };
 
 

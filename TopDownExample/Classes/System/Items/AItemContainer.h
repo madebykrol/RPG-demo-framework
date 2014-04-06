@@ -2,7 +2,6 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
-#include "ItemContainer.h"
 #include "AItemContainer.generated.h"
 
 
@@ -10,10 +9,19 @@
  * 
  */
 UCLASS()
-class AAItemContainer : public AActor, public IItemContainer
+class AAItemContainer : public AActor, public IItemContainer, public IMouseInteractable
 {
 	GENERATED_UCLASS_BODY()
 
 	void AAItemContainer::OnOpen(AController* user);
-	
+
+	virtual void OnMousePressed(AController* user);
+
+	virtual void OnMouseReleased(AController* user);
+
+	virtual void OnMouseHoverIn(AController* user);
+
+	virtual void OnMouseHoverOut(AController* user);
+
+
 };

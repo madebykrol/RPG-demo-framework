@@ -14,6 +14,5 @@ ATopDownExampleGameMode::ATopDownExampleGameMode(const class FPostConstructIniti
 	if (PlayerPawnBPClass.Object != NULL)
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Object;
-
 	}
 }

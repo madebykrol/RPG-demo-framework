@@ -105,3 +105,24 @@ void ATopDownExampleCharacter::PurgeHiddenObjects(TArray<TWeakObjectPtr<class UP
 		}
 	}
 }
+
+void ATopDownExampleCharacter::OnMousePressed(AController* user)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Pressed on player"));
+}
+
+void ATopDownExampleCharacter::OnMouseReleased(AController* user)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released on player"));
+}
+
+void ATopDownExampleCharacter::OnMouseHoverIn(AController* user)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hover In on player"));
+}
+
+void ATopDownExampleCharacter::OnMouseHoverOut(AController* user)
+{
+	
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hover out from player"));
+}

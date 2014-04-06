@@ -9,9 +9,11 @@ ATopDownExamplePlayerController::ATopDownExamplePlayerController(const class FPo
 {
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::CardinalCross;
-
-
+	MouseInteractionHandler = NewObject<UMouseInteractionHandler>(this);
+	
 }
+
+
 
 void ATopDownExamplePlayerController::PlayerTick(float DeltaTime)
 {
@@ -22,12 +24,18 @@ void ATopDownExamplePlayerController::PlayerTick(float DeltaTime)
 	const ULocalPlayer* LocalPlayer = Cast<ULocalPlayer>(Player);
 	FHitResult Hit;
 	FVector2D ScreenPoint = LocalPlayer->ViewportClient->GetMousePosition();
-	if (GetHitResultAtScreenPosition(ScreenPoint, COLLISION_WEAPON, true, Hit))
-	{
-		//GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Moused over"));
+	GetHitResultAtScreenPosition(ScreenPoint, COLLISION_WEAPON, true, Hit);
+
+	AActor * actor = Hit.GetActor();
+			
+	if (MouseInteractionHandler->IsInteractable(actor)) {
+		IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(actor);
+		MouseInteractionHandler->TriggerHoverToggle(object, this);
+	}
+	else {
+		MouseInteractionHandler->ClearHoverTarget(this);
 	}
 
-	
 	// keep updating the destination every tick while desired
 	if (bMoveToMouseCursor)
 	{
@@ -40,8 +48,8 @@ void ATopDownExamplePlayerController::SetupInputComponent()
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
-	InputComponent->BindAction("SetDestination", IE_Pressed, this, &ATopDownExamplePlayerController::OnMouseClickPressed);
-	InputComponent->BindAction("SetDestination", IE_Released, this, &ATopDownExamplePlayerController::OnMouseClickReleased);
+	InputComponent->BindAction("LeftClick", IE_Pressed, this, &ATopDownExamplePlayerController::OnMouseClickPressed);
+	InputComponent->BindAction("LeftClick", IE_Released, this, &ATopDownExamplePlayerController::OnMouseClickReleased);
 
 	// WASD movement of character
 	InputComponent->BindAxis("MoveForward", this, &ATopDownExamplePlayerController::MoveForward);
@@ -86,6 +94,7 @@ void ATopDownExamplePlayerController::SetNewMoveDestination(const FVector DestLo
 	if (Pawn)
 	{
 		UNavigationSystem* const NavSys = GetWorld()->GetNavigationSystem();
+
 		float const Distance = FVector::Dist(DestLocation, Pawn->GetActorLocation());
 
 		// We need to issue move command only if far enough in order for walk animation to play correctly
@@ -105,11 +114,36 @@ void ATopDownExamplePlayerController::OnMouseClickPressed()
 
 
 	// Select world object.
+	APawn* const Pawn = GetPawn();
+	bool clickedOnClickable = false;
 
+	FHitResult ClickHit;
+	GetHitResultUnderCursor(COLLISION_WEAPON, false, ClickHit);
 
-	
+	// if pawn.
+	if (Pawn) {
+		// first, check if we actually hit a "Actor"
+		if (ClickHit.GetActor()) {
 
-	bMoveToMouseCursor = true;
+			// Then we check distance
+			float distance = FVector::Dist(ClickHit.ImpactPoint, Pawn->GetActorLocation());
+
+			// if distance is within reach.
+			if (distance < 2000) {
+
+				if (MouseInteractionHandler->IsInteractable(ClickHit.GetActor())) {
+					IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(ClickHit.GetActor());
+					object->OnMousePressed(this);
+					clickedOnClickable = true;
+				}
+			}
+		}
+
+	}
+
+	if (!clickedOnClickable) {
+		bMoveToMouseCursor = true;
+	}
 }
 
 void ATopDownExamplePlayerController::OnMouseClickReleased()
@@ -119,20 +153,23 @@ void ATopDownExamplePlayerController::OnMouseClickReleased()
 	APawn* const Pawn = GetPawn();
 
 	FHitResult ClickHit;
-	GetHitResultUnderCursor(ECC_Visibility, false, ClickHit);
+	GetHitResultUnderCursor(COLLISION_WEAPON, false, ClickHit);
 
+	// if pawn.
+	if (Pawn) {
+		// first, check if we actually hit a "Actor"
+		if (ClickHit.GetActor()) {
 
-	if (Pawn)
-	{
-		float distance = FVector::Dist(ClickHit.ImpactPoint, Pawn->GetActorLocation());
+			// Then we check distance
+			float distance = FVector::Dist(ClickHit.ImpactPoint, Pawn->GetActorLocation());
 
-		if (distance < 200) {
+			// if distance is within reach.
+			if (distance < 2000) {
 
-			IMouseInteractable * object = InterfaceCast<IMouseInteractable>(ClickHit.GetActor());
-
-			if (object) {
-
-				object->OnMouseReleased(this);
+				if (MouseInteractionHandler->IsInteractable(ClickHit.GetActor())) {
+					IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(ClickHit.GetActor());
+					object->OnMouseReleased(this);
+				}
 			}
 		}
 

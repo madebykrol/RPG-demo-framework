@@ -24,5 +24,13 @@ protected:
 
 	virtual void PurgeHiddenObjects(TArray<TWeakObjectPtr<class UPrimitiveComponent>> newComponents);
 
+	virtual void OnMousePressed(AController* user);
+
+	virtual void OnMouseReleased(AController* user);
+
+	virtual void OnMouseHoverIn(AController* user);
+
+	virtual void OnMouseHoverOut(AController* user);
+
 };
 
