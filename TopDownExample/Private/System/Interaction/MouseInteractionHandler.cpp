@@ -7,6 +7,11 @@ UMouseInteractionHandler::UMouseInteractionHandler(const class FPostConstructIni
 	
 
 };
+
+IMouseInteractable * UMouseInteractionHandler::GetCurrentPressTarget() {
+	return CurrentPressTarget;
+}
+
 bool UMouseInteractionHandler::IsInteractable(AActor * actor)
 {
 	IMouseInteractable * object = InterfaceCast<IMouseInteractable>(actor);
@@ -30,19 +35,58 @@ IMouseInteractable * UMouseInteractionHandler::GetInteractableObject(AActor * ac
 	}
 };
 
-bool UMouseInteractionHandler::TriggerHoverToggle(IMouseInteractable * actor, AController * player)
+bool UMouseInteractionHandler::TriggerHoverToggle(IMouseInteractable * actor, AController * player, FVector pos)
 {
 	if (CurrentHoverTarget == actor) {
 		return false;
 	}
 
-	ClearHoverTarget(player);
+	ClearHoverTarget(player, pos);
 
 	CurrentHoverTarget = actor;
-	actor->OnMouseHoverIn(player);
+	actor->OnMouseHoverIn(player, pos);
 
 	return true;
 };
+
+
+
+bool UMouseInteractionHandler::TriggerMousePress(IMouseInteractable * actor, AController * player, FVector pos) 
+{
+	CurrentPressTarget = actor;
+	actor->OnMousePressed(player, pos);
+	return false;
+}
+
+bool UMouseInteractionHandler::TriggerMouseRelease(AController * player, FVector pos, bool focus)
+{
+	if (CurrentPressTarget) {
+		if (focus) {
+			CurrentPressTarget->OnMouseFocusedReleased(player, pos);
+		}
+		else {
+			CurrentPressTarget->OnMouseReleased(player, pos);
+		}
+		
+		CurrentPressTarget = nullptr;
+	}
+	return false;
+}
+
+
+bool UMouseInteractionHandler::TriggerMouseRelease(AController * player, FVector pos, bool focus, IMouseInteractable * target) {
+	if (CurrentPressTarget) {
+		if (focus) {
+			CurrentPressTarget->OnMouseFocusedReleased(player, pos);
+		}
+		else {
+			CurrentPressTarget->OnMouseReleased(player, pos);
+		}
+
+		CurrentPressTarget = nullptr;
+	}
+	return false;
+}
 
 bool UMouseInteractionHandler::HasHoverTarget() {
 	if (CurrentHoverTarget) {
@@ -52,10 +96,10 @@ bool UMouseInteractionHandler::HasHoverTarget() {
 	return false;
 }
 
-void UMouseInteractionHandler::ClearHoverTarget(AController * player) {
+void UMouseInteractionHandler::ClearHoverTarget(AController * player, FVector pos) {
 	if (CurrentHoverTarget)
 	{
-		CurrentHoverTarget->OnMouseHoverOut(player);
+		CurrentHoverTarget->OnMouseHoverOut(player, pos);
 		CurrentHoverTarget = NULL;
 	}
 }

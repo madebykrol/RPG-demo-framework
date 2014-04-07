@@ -106,22 +106,27 @@ void ATopDownExampleCharacter::PurgeHiddenObjects(TArray<TWeakObjectPtr<class UP
 	}
 }
 
-void ATopDownExampleCharacter::OnMousePressed(AController* user)
+void ATopDownExampleCharacter::OnMousePressed(AController* user, FVector pos)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Pressed on player"));
 }
 
-void ATopDownExampleCharacter::OnMouseReleased(AController* user)
+void ATopDownExampleCharacter::OnMouseReleased(AController* user, FVector pos)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released outisde of player"));
+}
+
+void ATopDownExampleCharacter::OnMouseFocusedReleased(AController* user, FVector pos)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released on player"));
 }
 
-void ATopDownExampleCharacter::OnMouseHoverIn(AController* user)
+void ATopDownExampleCharacter::OnMouseHoverIn(AController* user, FVector pos)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hover In on player"));
 }
 
-void ATopDownExampleCharacter::OnMouseHoverOut(AController* user)
+void ATopDownExampleCharacter::OnMouseHoverOut(AController* user, FVector pos)
 {
 	
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hover out from player"));

@@ -9,22 +9,28 @@ UMouseInteractable::UMouseInteractable(const class FPostConstructInitializePrope
 }
 
 
-void IMouseInteractable::OnMousePressed(AController* player)
+void IMouseInteractable::OnMousePressed(AController* player, FVector pos)
 {
 	// Default mouse pressed event
 }
 
-void IMouseInteractable::OnMouseReleased(AController* player)
+void IMouseInteractable::OnMouseReleased(AController* player, FVector pos, IMouseInteractable * target)
 {
 	// Default mouse released event
 }
 
-void IMouseInteractable::OnMouseHoverIn(AController* player)
+
+void IMouseInteractable::OnMouseFocusedReleased(AController* player, FVector pos)
+{
+	// Default mouse released event
+}
+
+void IMouseInteractable::OnMouseHoverIn(AController* player, FVector pos)
 {
 	// Default mouse hover in event
 }
 
-void IMouseInteractable::OnMouseHoverOut(AController* player)
+void IMouseInteractable::OnMouseHoverOut(AController* player, FVector pos)
 {
 	// Default mouse hover out event
 }

@@ -30,10 +30,10 @@ void ATopDownExamplePlayerController::PlayerTick(float DeltaTime)
 			
 	if (MouseInteractionHandler->IsInteractable(actor)) {
 		IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(actor);
-		MouseInteractionHandler->TriggerHoverToggle(object, this);
+		MouseInteractionHandler->TriggerHoverToggle(object, this, Hit.ImpactPoint);
 	}
 	else {
-		MouseInteractionHandler->ClearHoverTarget(this);
+		MouseInteractionHandler->ClearHoverTarget(this, Hit.ImpactPoint);
 	}
 
 	// keep updating the destination every tick while desired
@@ -118,7 +118,7 @@ void ATopDownExamplePlayerController::OnMouseClickPressed()
 	bool clickedOnClickable = false;
 
 	FHitResult ClickHit;
-	GetHitResultUnderCursor(COLLISION_WEAPON, false, ClickHit);
+	GetHitResultUnderCursor(COLLISION_PROJECTILE, false, ClickHit);
 
 	// if pawn.
 	if (Pawn) {
@@ -133,7 +133,8 @@ void ATopDownExamplePlayerController::OnMouseClickPressed()
 
 				if (MouseInteractionHandler->IsInteractable(ClickHit.GetActor())) {
 					IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(ClickHit.GetActor());
-					object->OnMousePressed(this);
+
+					MouseInteractionHandler->TriggerMousePress(object, this, ClickHit.ImpactPoint);
 					clickedOnClickable = true;
 				}
 			}
@@ -154,27 +155,32 @@ void ATopDownExamplePlayerController::OnMouseClickReleased()
 
 	FHitResult ClickHit;
 	GetHitResultUnderCursor(COLLISION_WEAPON, false, ClickHit);
+	
+	bool hasReleased = false;
 
 	// if pawn.
 	if (Pawn) {
 		// first, check if we actually hit a "Actor"
 		if (ClickHit.GetActor()) {
 
-			// Then we check distance
-			float distance = FVector::Dist(ClickHit.ImpactPoint, Pawn->GetActorLocation());
+			if (MouseInteractionHandler->IsInteractable(ClickHit.GetActor())) {
+				IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(ClickHit.GetActor());
 
-			// if distance is within reach.
-			if (distance < 2000) {
-
-				if (MouseInteractionHandler->IsInteractable(ClickHit.GetActor())) {
-					IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(ClickHit.GetActor());
-					object->OnMouseReleased(this);
+				if (object != MouseInteractionHandler->GetCurrentPressTarget()) {
+					MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, true, object);
 				}
+				else {
+					MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, true);
+				}
+				hasReleased = true;
 			}
 		}
 
 	}
 
+	if (!hasReleased) {
+		MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, false);
+	}
 	bMoveToMouseCursor = false;
 }
 

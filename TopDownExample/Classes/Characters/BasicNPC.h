@@ -15,12 +15,14 @@ class ABasicNPC : public ACharacter, public  IGameCharacter, public IMouseIntera
 
 	void OnTakeDmg(); 
 
-	void OnMousePressed(AController* player);
+	void OnMousePressed(AController* player, FVector pos);
 
-	void OnMouseReleased(AController* player);
+	void OnMouseReleased(AController* player, FVector pos);
 
-	void OnMouseHoverIn(AController* player);
+	void OnMouseFocusedReleased(AController* player, FVector pos);
 
-	void OnMouseHoverOut(AController* player);
+	void OnMouseHoverIn(AController* player, FVector pos);
+
+	void OnMouseHoverOut(AController* player, FVector pos);
 	
 };

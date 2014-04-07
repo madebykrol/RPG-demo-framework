@@ -17,28 +17,35 @@ void AAItemContainer::OnOpen(AController * user)
 	}
 }
 
-void AAItemContainer::OnMousePressed(AController* user)
+void AAItemContainer::OnMousePressed(AController* user, FVector pos)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Pressed"));
 	}
 }
 
-void AAItemContainer::OnMouseReleased(AController* user)
+void AAItemContainer::OnMouseFocusedReleased(AController* user, FVector pos)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released"));
 	}
 }
 
-void AAItemContainer::OnMouseHoverIn(AController* user)
+void AAItemContainer::OnMouseReleased(AController* user, FVector pos)
+{
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released"));
+	}
+}
+
+void AAItemContainer::OnMouseHoverIn(AController* user, FVector pos)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hover In"));
 	}
 }
 
-void AAItemContainer::OnMouseHoverOut(AController* user)
+void AAItemContainer::OnMouseHoverOut(AController* user, FVector pos)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hoover Out"));
