@@ -38,6 +38,13 @@ void AAItemContainer::OnMouseReleased(AController* user, FVector pos)
 	}
 }
 
+void AAItemContainer::OnMouseReleased(AController* user, FVector pos, IMouseInteractable * target)
+{
+	if (GEngine) {
+		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released"));
+	}
+}
+
 void AAItemContainer::OnMouseHoverIn(AController* user, FVector pos)
 {
 	if (GEngine) {

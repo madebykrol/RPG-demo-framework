@@ -116,6 +116,11 @@ void ATopDownExampleCharacter::OnMouseReleased(AController* user, FVector pos)
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released outisde of player"));
 }
 
+void ATopDownExampleCharacter::OnMouseReleased(AController* user, FVector pos, IMouseInteractable * target)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released outisde of player"));
+}
+
 void ATopDownExampleCharacter::OnMouseFocusedReleased(AController* user, FVector pos)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released on player"));

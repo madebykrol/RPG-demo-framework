@@ -19,6 +19,11 @@ void ABasicNPC::OnMouseFocusedReleased(AController* user, FVector pos)
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released"));
 }
 
+void ABasicNPC::OnMouseFocusedReleased(AController* user, FVector pos, IMouseInteractable * target)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released on target"));
+}
+
 void ABasicNPC::OnMouseHoverIn(AController * player, FVector pos)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hover in on NPC"));

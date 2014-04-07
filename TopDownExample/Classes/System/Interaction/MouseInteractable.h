@@ -14,6 +14,7 @@ class IMouseInteractable
 
 	virtual void OnMousePressed(AController* player, FVector pos);
 	virtual void OnMouseReleased(AController* player, FVector pos);
+	virtual void OnMouseReleased(AController* player, FVector pos, IMouseInteractable * target);
 	virtual void OnMouseFocusedReleased(AController* player, FVector pos);
 	virtual void OnMouseHoverIn(AController* player, FVector pos);
 	virtual void OnMouseHoverOut(AController* player, FVector pos);

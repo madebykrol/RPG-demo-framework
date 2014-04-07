@@ -21,6 +21,8 @@ class AAItemContainer : public AActor, public IItemContainer, public IMouseInter
 
 	virtual void OnMouseFocusedReleased(AController* user, FVector pos);
 
+	virtual void OnMouseFocusedReleased(AController* user, FVector pos, IMouseInteractable * target);
+
 	virtual void OnMouseHoverIn(AController* user, FVector pos);
 
 	virtual void OnMouseHoverOut(AController* user, FVector pos);
