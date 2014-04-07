@@ -145,7 +145,7 @@ void ATopDownExamplePlayerController::OnMouseClickPressed()
 
 void ATopDownExamplePlayerController::OnMouseClickReleased()
 {
-	// clear flag to indicate we should stop updating the destination
+	
 
 	APawn* const Pawn = GetPawn();
 
@@ -181,6 +181,7 @@ void ATopDownExamplePlayerController::OnMouseClickReleased()
 	if (!hasReleased) {
 		MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, false);
 	}
+	// clear flag to indicate we should stop updating the destination
 	bMoveToMouseCursor = false;
 }
 
