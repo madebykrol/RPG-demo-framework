@@ -110,10 +110,6 @@ void ATopDownExamplePlayerController::SetNewMoveDestination(const FVector DestLo
 void ATopDownExamplePlayerController::OnMouseClickPressed()
 {
 	// set flag to keep updating destination until released
-	
-
-
-	// Select world object.
 	APawn* const Pawn = GetPawn();
 	bool clickedOnClickable = false;
 
@@ -166,12 +162,16 @@ void ATopDownExamplePlayerController::OnMouseClickReleased()
 			if (MouseInteractionHandler->IsInteractable(ClickHit.GetActor())) {
 				IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(ClickHit.GetActor());
 
+				
 				if (object != MouseInteractionHandler->GetCurrentPressTarget()) {
-					MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, true, object);
+					// Released mouse starting from one interactable on another.
+					MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, ClickHit.GetActor());
 				}
 				else {
+					// Normal drag release operation.
 					MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, true);
 				}
+
 				hasReleased = true;
 			}
 		}

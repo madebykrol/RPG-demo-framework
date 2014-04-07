@@ -19,7 +19,7 @@ class ABasicNPC : public ACharacter, public  IGameCharacter, public IMouseIntera
 
 	void OnMouseReleased(AController* player, FVector pos);
 
-	void OnMouseFocusedReleased(AController* user, FVector pos, IMouseInteractable * target);
+	void OnMouseReleased(AController* user, FVector pos, AActor * target);
 
 	void OnMouseFocusedReleased(AController* player, FVector pos);
 

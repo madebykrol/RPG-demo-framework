@@ -38,7 +38,7 @@ void AAItemContainer::OnMouseReleased(AController* user, FVector pos)
 	}
 }
 
-void AAItemContainer::OnMouseReleased(AController* user, FVector pos, IMouseInteractable * target)
+void AAItemContainer::OnMouseReleased(AController* user, FVector pos, AActor * target)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released"));

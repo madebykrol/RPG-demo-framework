@@ -28,7 +28,7 @@ protected:
 
 	virtual void OnMouseReleased(AController* user, FVector pos);
 
-	virtual void OnMouseReleased(AController* user, FVector pos, IMouseInteractable * target);
+	virtual void OnMouseReleased(AController* user, FVector pos, AActor * target);
 
 	virtual void OnMouseFocusedReleased(AController* user, FVector pos);
 

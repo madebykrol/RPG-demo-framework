@@ -15,11 +15,11 @@ public:
 	bool IsInteractable(AActor * actor);
 	IMouseInteractable * GetInteractableObject(AActor * actor);
 	
-	bool TriggerMouseRelease(AController* player, FVector pos, bool focues);
-	bool TriggerMouseRelease(AController* player, FVector pos, bool focues, IMouseInteractable * target);
-	bool TriggerMousePress(IMouseInteractable * actor, AController* player, FVector pos);
+	void TriggerMouseRelease(AController* player, FVector pos, bool focues);
+	void TriggerMouseRelease(AController* player, FVector pos, AActor * target);
+	void TriggerMousePress(IMouseInteractable * actor, AController* player, FVector pos);
 
-	bool TriggerHoverToggle(IMouseInteractable * actor, AController * player, FVector pos);
+	void TriggerHoverToggle(IMouseInteractable * actor, AController * player, FVector pos);
 	bool HasHoverTarget();
 	void ClearHoverTarget(AController * player, FVector pos);
 	IMouseInteractable * GetCurrentPressTarget();

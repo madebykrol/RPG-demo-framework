@@ -14,7 +14,12 @@ void IMouseInteractable::OnMousePressed(AController* player, FVector pos)
 	// Default mouse pressed event
 }
 
-void IMouseInteractable::OnMouseReleased(AController* player, FVector pos, IMouseInteractable * target)
+void IMouseInteractable::OnMouseReleased(AController* player, FVector pos)
+{
+	// Default mouse released event
+}
+
+void IMouseInteractable::OnMouseReleased(AController* player, FVector pos, AActor * target)
 {
 	// Default mouse released event
 }
