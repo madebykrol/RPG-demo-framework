@@ -8,6 +8,7 @@ ATopDownExampleGameMode::ATopDownExampleGameMode(const class FPostConstructIniti
 {
 	// use our custom PlayerController class
 	PlayerControllerClass = ATopDownExamplePlayerController::StaticClass();
+	
 
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FObjectFinder<UClass> PlayerPawnBPClass(TEXT("Class'/Game/Blueprints/MyCharacter.MyCharacter_C'"));
@@ -15,4 +16,6 @@ ATopDownExampleGameMode::ATopDownExampleGameMode(const class FPostConstructIniti
 	{
 		DefaultPawnClass = PlayerPawnBPClass.Object;
 	}
+
+	HUDClass = AMyHUD::StaticClass();
 }

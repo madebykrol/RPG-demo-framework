@@ -6,6 +6,7 @@ public class TopDownExample : ModuleRules
 {
 	public TopDownExample(TargetInfo Target)
 	{
-		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore", "Slate"});
+		PublicDependencyModuleNames.AddRange(new string[] { "Core", "CoreUObject", "Engine", "InputCore"});
+        PrivateDependencyModuleNames.AddRange(new string[] { "Slate" });
 	}
 }
