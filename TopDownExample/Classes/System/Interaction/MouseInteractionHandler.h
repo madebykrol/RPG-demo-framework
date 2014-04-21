@@ -1,5 +1,5 @@
 #pragma once
-#include "TopDownExample.h"
+
 #include "MouseInteractionHandler.generated.h"
 
 UCLASS()
@@ -15,9 +15,9 @@ public:
 	bool IsInteractable(AActor * actor);
 	IMouseInteractable * GetInteractableObject(AActor * actor);
 	
-	void TriggerMouseRelease(AController* player, FVector pos, bool focues);
-	void TriggerMouseRelease(AController* player, FVector pos, AActor * target);
-	void TriggerMousePress(IMouseInteractable * actor, AController* player, FVector pos);
+	void TriggerMouseRelease(AController* player, FVector pos, bool focues, FKey key);
+	void TriggerMouseRelease(AController* player, FVector pos, AActor * target, FKey key);
+	void TriggerMousePress(IMouseInteractable * actor, AController* player, FVector pos, FKey key);
 
 	void TriggerHoverToggle(IMouseInteractable * actor, AController * player, FVector pos);
 	bool HasHoverTarget();

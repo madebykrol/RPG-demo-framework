@@ -4,7 +4,12 @@
 #define __TOPDOWNEXAMPLE_H__
 
 #include "Engine.h"
+#include "EngineUserInterfaceClasses.h"
+#include "EngineKismetLibraryClasses.h"
 #include "TopDownExampleClasses.h"
+#include "../../../../../../Source/TopDownExample/TopDownExampleCharacter.h"
+
+
 
 DECLARE_LOG_CATEGORY_EXTERN(LogTopDownExample, Log, All);
 

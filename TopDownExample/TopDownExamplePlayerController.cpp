@@ -10,10 +10,18 @@ ATopDownExamplePlayerController::ATopDownExamplePlayerController(const class FPo
 	bShowMouseCursor = true;
 	DefaultMouseCursor = EMouseCursor::CardinalCross;
 	MouseInteractionHandler = NewObject<UMouseInteractionHandler>(this);
+
+	HUDService = NewObject<UHUDService>(this);
+	HUDService->SetHudReference(this->GetHUD());
+	HUDService->ShowPlayerInventory(NewObject<UPlayerInventory>(this));
 	
+	// GMode = Cast<ATopDownExampleGameMode>(GetWorld()->GameState->GetDefaultGameMode());
+
+	static ConstructorHelpers::FObjectFinder<UClass> SpellBPClass(TEXT("Class'/Game/Blueprints/SpellProjectile.SpellProjectile_C'"));
+	if (SpellBPClass.Object != NULL) {
+		SpellprojectileClass = SpellBPClass.Object;
+	}
 }
-
-
 
 void ATopDownExamplePlayerController::PlayerTick(float DeltaTime)
 {
@@ -27,10 +35,12 @@ void ATopDownExamplePlayerController::PlayerTick(float DeltaTime)
 	GetHitResultAtScreenPosition(ScreenPoint, COLLISION_WEAPON, true, Hit);
 
 	AActor * actor = Hit.GetActor();
-			
+	
 	if (MouseInteractionHandler->IsInteractable(actor)) {
 		IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(actor);
 		MouseInteractionHandler->TriggerHoverToggle(object, this, Hit.ImpactPoint);
+
+		HUDService->ShowInventory(NULL);
 	}
 	else {
 		MouseInteractionHandler->ClearHoverTarget(this, Hit.ImpactPoint);
@@ -48,9 +58,12 @@ void ATopDownExamplePlayerController::SetupInputComponent()
 	// set up gameplay key bindings
 	Super::SetupInputComponent();
 
-	InputComponent->BindAction("LeftClick", IE_Pressed, this, &ATopDownExamplePlayerController::OnMouseClickPressed);
-	InputComponent->BindAction("LeftClick", IE_Released, this, &ATopDownExamplePlayerController::OnMouseClickReleased);
-
+	InputComponent->BindAction("LeftClick", IE_Pressed, this, &ATopDownExamplePlayerController::MouseClickPressedLeft);
+	InputComponent->BindAction("LeftClick", IE_Released, this, &ATopDownExamplePlayerController::MouseClickReleasedLeft);
+	InputComponent->BindAction("RightClick", IE_Pressed, this, &ATopDownExamplePlayerController::MouseClickPressedRight);
+	InputComponent->BindAction("RightClick", IE_Released, this, &ATopDownExamplePlayerController::MouseClickReleasedRight);
+	InputComponent->BindAction("PrimaryAttack", IE_Pressed, this, &ATopDownExamplePlayerController::MouseClickPressedLeftShift);
+	
 	// WASD movement of character
 	InputComponent->BindAxis("MoveForward", this, &ATopDownExamplePlayerController::MoveForward);
 	InputComponent->BindAxis("MoveRight", this, &ATopDownExamplePlayerController::MoveRight);
@@ -107,10 +120,77 @@ void ATopDownExamplePlayerController::SetNewMoveDestination(const FVector DestLo
 	}
 }
 
-void ATopDownExamplePlayerController::OnMouseClickPressed()
+// Untill custom delegations for UInputComponent BindAction works, this will suffice
+void ATopDownExamplePlayerController::MouseClickPressedRight() {
+	OnMouseClickPressed(EKeys::RightMouseButton);
+}
+
+void ATopDownExamplePlayerController::MouseClickPressedLeftShift() {
+	OnMouseShiftClickPressed(EKeys::LeftMouseButton);
+}
+
+void ATopDownExamplePlayerController::MouseClickPressedLeft() {
+	OnMouseClickPressed(EKeys::LeftMouseButton);
+}
+
+void ATopDownExamplePlayerController::MouseClickReleasedRight() {
+	OnMouseClickReleased(EKeys::RightMouseButton);
+}
+
+void ATopDownExamplePlayerController::MouseClickReleasedLeft() {
+	OnMouseClickReleased(EKeys::LeftMouseButton);
+}
+
+void ATopDownExamplePlayerController::OnMouseShiftClickPressed(FKey key)
+{
+	APawn* const Pawn = GetPawn();
+
+	FHitResult ClickHit;
+	GetHitResultUnderCursor(COLLISION_PROJECTILE, false, ClickHit);
+
+	// first, rotate player to click location
+	// Skip rotation on Z-axis.
+	FVector playerLocation(Pawn->GetActorLocation().X, Pawn->GetActorLocation().Y, 0.0f);
+	FVector hitPoint(ClickHit.ImpactPoint.X, ClickHit.ImpactPoint.Y, 0.0f);
+
+	FRotator newRotation = (hitPoint - playerLocation).Rotation();
+
+	Pawn->SetActorRotation(newRotation);
+
+	// if pawn.
+	if (Pawn) {
+
+		// first, rotate player to click location
+
+		FVector playerLocation = Pawn->GetActorLocation();
+		FVector hitPoint = ClickHit.ImpactPoint;
+
+		// second, check if we actually hit a "Actor"
+		if (ClickHit.GetActor()) {
+
+
+			// Then we check distance
+			float distance = FVector::Dist(ClickHit.ImpactPoint, Pawn->GetActorLocation());
+			if (key == EKeys::LeftMouseButton) {
+				// Cast to TopDownExampleCharacter
+				ATopDownExampleCharacter* Char = Cast<ATopDownExampleCharacter>(Pawn);
+
+				// Select the spell we are casting.
+				USpell* Spell = NewObject<USpell>(this);
+				Spell->SetSpellProjectileClass(SpellprojectileClass);
+
+				// Cast the spell.
+				Char->CastSpell(Spell);
+			}
+		}
+	}
+}
+
+void ATopDownExamplePlayerController::OnMouseClickPressed(FKey key)
 {
 	// set flag to keep updating destination until released
 	APawn* const Pawn = GetPawn();
+
 	bool clickedOnClickable = false;
 
 	FHitResult ClickHit;
@@ -118,9 +198,11 @@ void ATopDownExamplePlayerController::OnMouseClickPressed()
 
 	// if pawn.
 	if (Pawn) {
-		// first, check if we actually hit a "Actor"
+		
+		// second, check if we actually hit a "Actor"
 		if (ClickHit.GetActor()) {
 
+			
 			// Then we check distance
 			float distance = FVector::Dist(ClickHit.ImpactPoint, Pawn->GetActorLocation());
 
@@ -130,7 +212,7 @@ void ATopDownExamplePlayerController::OnMouseClickPressed()
 				if (MouseInteractionHandler->IsInteractable(ClickHit.GetActor())) {
 					IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(ClickHit.GetActor());
 
-					MouseInteractionHandler->TriggerMousePress(object, this, ClickHit.ImpactPoint);
+					MouseInteractionHandler->TriggerMousePress(object, this, ClickHit.ImpactPoint, key);
 					clickedOnClickable = true;
 				}
 			}
@@ -141,13 +223,23 @@ void ATopDownExamplePlayerController::OnMouseClickPressed()
 	if (!clickedOnClickable) {
 		bMoveToMouseCursor = true;
 	}
+	else {
+		// first, rotate player to click location
+
+		FVector playerLocation(Pawn->GetActorLocation().X, Pawn->GetActorLocation().Y, 0.0f);
+		FVector hitPoint(ClickHit.ImpactPoint.X, ClickHit.ImpactPoint.Y, 0.0f);
+
+		FRotator newRotation = (hitPoint - playerLocation).Rotation();
+
+		Pawn->SetActorRotation(newRotation);
+	}
 }
 
-void ATopDownExamplePlayerController::OnMouseClickReleased()
+void ATopDownExamplePlayerController::OnMouseClickReleased(FKey key)
 {
 	
-
 	APawn* const Pawn = GetPawn();
+
 
 	FHitResult ClickHit;
 	GetHitResultUnderCursor(COLLISION_WEAPON, false, ClickHit);
@@ -161,15 +253,14 @@ void ATopDownExamplePlayerController::OnMouseClickReleased()
 
 			if (MouseInteractionHandler->IsInteractable(ClickHit.GetActor())) {
 				IMouseInteractable * object = MouseInteractionHandler->GetInteractableObject(ClickHit.GetActor());
-
 				
 				if (object != MouseInteractionHandler->GetCurrentPressTarget()) {
 					// Released mouse starting from one interactable on another.
-					MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, ClickHit.GetActor());
+					MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, ClickHit.GetActor(), key);
 				}
 				else {
 					// Normal drag release operation.
-					MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, true);
+					MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, true, key);
 				}
 
 				hasReleased = true;
@@ -179,12 +270,22 @@ void ATopDownExamplePlayerController::OnMouseClickReleased()
 	}
 
 	if (!hasReleased) {
-		MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, false);
+		MouseInteractionHandler->TriggerMouseRelease(this, ClickHit.ImpactPoint, false, key);
 	}
 	// clear flag to indicate we should stop updating the destination
 	bMoveToMouseCursor = false;
 }
 
+void ATopDownExamplePlayerController::OnUsePrimaryAttack()
+{
+	// Use primary skill.
+
+	// As character is default caster, use a casting spell.
+
+	// Cast the "spell" from the players center, in the direction the player is facing.
+
+
+}
 
 void ATopDownExamplePlayerController::MoveRight(float Value)
 {

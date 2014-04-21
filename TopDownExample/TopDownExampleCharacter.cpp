@@ -35,6 +35,8 @@ ATopDownExampleCharacter::ATopDownExampleCharacter(const class FPostConstructIni
 
 	PrimaryActorTick.bCanEverTick = true;
 
+	Inventory = NewObject<UPlayerInventory>(this);
+
 }
 
 
@@ -106,22 +108,22 @@ void ATopDownExampleCharacter::PurgeHiddenObjects(TArray<TWeakObjectPtr<class UP
 	}
 }
 
-void ATopDownExampleCharacter::OnMousePressed(AController* user, FVector pos)
+void ATopDownExampleCharacter::OnMousePressed(AController* user, FVector pos, FKey key)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Pressed on player"));
 }
 
-void ATopDownExampleCharacter::OnMouseReleased(AController* user, FVector pos)
+void ATopDownExampleCharacter::OnMouseReleased(AController* user, FVector pos, FKey key)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released outisde of player"));
 }
 
-void ATopDownExampleCharacter::OnMouseReleased(AController* user, FVector pos, AActor * target)
+void ATopDownExampleCharacter::OnMouseReleased(AController* user, FVector pos, AActor * target, FKey key)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, target->GetName());
 }
 
-void ATopDownExampleCharacter::OnMouseFocusedReleased(AController* user, FVector pos)
+void ATopDownExampleCharacter::OnMouseFocusedReleased(AController* user, FVector pos, FKey key)
 {
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released on player"));
 }
@@ -135,4 +137,97 @@ void ATopDownExampleCharacter::OnMouseHoverOut(AController* user, FVector pos)
 {
 	
 	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Hover out from player"));
+}
+
+void ATopDownExampleCharacter::OnTakeDmg()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Take dmg"));
+}
+
+void ATopDownExampleCharacter::OnDealDmg()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Deal dmg"));
+}
+
+void ATopDownExampleCharacter::OnDeath()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Died"));
+}
+
+void ATopDownExampleCharacter::OnResurrect()
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Resurrected"));
+}
+
+void ATopDownExampleCharacter::AddEnergy(int value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Add Energy"));
+}
+
+void ATopDownExampleCharacter::AddHealth(int value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Add Health"));
+}
+
+void ATopDownExampleCharacter::AddMana(int value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Add Mana"));
+}
+
+// Subtraction of status
+void ATopDownExampleCharacter::SubtractHealth(int value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Subtract Health"));
+}
+
+void ATopDownExampleCharacter::SubtractEnergy(int value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Subtract Energy"));
+}
+
+void ATopDownExampleCharacter::SubtractMana(int value)
+{
+	GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Subtract Mana"));
+}
+
+int ATopDownExampleCharacter::GetCurrentEnergy()
+{
+	return 0;
+}
+
+int ATopDownExampleCharacter::GetCurrentHealth()
+{
+	return 0;
+}
+
+int ATopDownExampleCharacter::GetCurrentMana()
+{
+	return 0;
+}
+
+int ATopDownExampleCharacter::GetMaxHealth()
+{
+	return 0;
+}
+
+int ATopDownExampleCharacter::GetMaxEnergy()
+{
+	return 0;
+}
+
+int ATopDownExampleCharacter::GetMaxMana()
+{
+	return 0;
+}
+
+void ATopDownExampleCharacter::CastSpell(USpell * spell)
+{
+	if (!spell->IsAOE()) {
+		FTransform SpawnTM(this->GetActorRotation(), GetActorLocation()+FVector(10.0f, 0.5f, 0.5f));
+
+		ASpellProjectile* projectile = Cast<ASpellProjectile>(UGameplayStatics::BeginSpawningActorFromClass(this, spell->GetSpellProjectileClass(), SpawnTM));
+		projectile->SetSpell(spell);
+
+		UGameplayStatics::FinishSpawningActor(projectile, SpawnTM);
+	}
 }

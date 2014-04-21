@@ -1,5 +1,5 @@
 #pragma once
-#include "TopDownExample.h"
+
 #include "ItemContainer.generated.h"
 
 UINTERFACE(MinimalAPI)

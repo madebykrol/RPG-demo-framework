@@ -1,4 +1,3 @@
-#pragma once
 #include "TopDownExample.h"
 
 UMouseInteractionHandler::UMouseInteractionHandler(const class FPostConstructInitializeProperties& PCIP)
@@ -49,20 +48,20 @@ void UMouseInteractionHandler::TriggerHoverToggle(IMouseInteractable * actor, AC
 
 
 
-void UMouseInteractionHandler::TriggerMousePress(IMouseInteractable * actor, AController * player, FVector pos) 
+void UMouseInteractionHandler::TriggerMousePress(IMouseInteractable * actor, AController * player, FVector pos, FKey key)
 {
 	CurrentPressTarget = actor;
-	actor->OnMousePressed(player, pos);
+	actor->OnMousePressed(player, pos, key);
 }
 
-void UMouseInteractionHandler::TriggerMouseRelease(AController * player, FVector pos, bool focus)
+void UMouseInteractionHandler::TriggerMouseRelease(AController * player, FVector pos, bool focus, FKey key)
 {
 	if (CurrentPressTarget) {
 		if (focus) {
-			CurrentPressTarget->OnMouseFocusedReleased(player, pos);
+			CurrentPressTarget->OnMouseFocusedReleased(player, pos, key);
 		}
 		else {
-			CurrentPressTarget->OnMouseReleased(player, pos);
+			CurrentPressTarget->OnMouseReleased(player, pos, key);
 		}
 		
 		CurrentPressTarget = nullptr;
@@ -70,10 +69,10 @@ void UMouseInteractionHandler::TriggerMouseRelease(AController * player, FVector
 }
 
 
-void UMouseInteractionHandler::TriggerMouseRelease(AController * player, FVector pos, AActor * target) {
+void UMouseInteractionHandler::TriggerMouseRelease(AController * player, FVector pos, AActor * target, FKey key) {
 	if (CurrentPressTarget) {
 
-		CurrentPressTarget->OnMouseReleased(player, pos, target);
+		CurrentPressTarget->OnMouseReleased(player, pos, target,key);
 
 		CurrentPressTarget = nullptr;
 	}

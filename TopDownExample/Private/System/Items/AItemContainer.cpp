@@ -17,28 +17,28 @@ void AAItemContainer::OnOpen(AController * user)
 	}
 }
 
-void AAItemContainer::OnMousePressed(AController* user, FVector pos)
+void AAItemContainer::OnMousePressed(AController* user, FVector pos, FKey key)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Pressed"));
 	}
 }
 
-void AAItemContainer::OnMouseFocusedReleased(AController* user, FVector pos)
+void AAItemContainer::OnMouseFocusedReleased(AController* user, FVector pos, FKey key)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released"));
 	}
 }
 
-void AAItemContainer::OnMouseReleased(AController* user, FVector pos)
+void AAItemContainer::OnMouseReleased(AController* user, FVector pos, FKey key)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released"));
 	}
 }
 
-void AAItemContainer::OnMouseReleased(AController* user, FVector pos, AActor * target)
+void AAItemContainer::OnMouseReleased(AController* user, FVector pos, AActor * target, FKey key)
 {
 	if (GEngine) {
 		GEngine->AddOnScreenDebugMessage(-1, 5.f, FColor::Yellow, TEXT("Released"));

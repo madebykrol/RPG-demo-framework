@@ -1,4 +1,3 @@
-#pragma once
 #include "TopDownExample.h"
 
 
@@ -9,23 +8,23 @@ UMouseInteractable::UMouseInteractable(const class FPostConstructInitializePrope
 }
 
 
-void IMouseInteractable::OnMousePressed(AController* player, FVector pos)
+void IMouseInteractable::OnMousePressed(AController* player, FVector pos, FKey key)
 {
 	// Default mouse pressed event
 }
 
-void IMouseInteractable::OnMouseReleased(AController* player, FVector pos)
+void IMouseInteractable::OnMouseReleased(AController* player, FVector pos, FKey key)
 {
 	// Default mouse released event
 }
 
-void IMouseInteractable::OnMouseReleased(AController* player, FVector pos, AActor * target)
+void IMouseInteractable::OnMouseReleased(AController* player, FVector pos, AActor * target, FKey key)
 {
 	// Default mouse released event
 }
 
 
-void IMouseInteractable::OnMouseFocusedReleased(AController* player, FVector pos)
+void IMouseInteractable::OnMouseFocusedReleased(AController* player, FVector pos, FKey key)
 {
 	// Default mouse released event
 }

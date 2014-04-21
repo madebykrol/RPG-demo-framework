@@ -15,13 +15,13 @@ class AAItemContainer : public AActor, public IItemContainer, public IMouseInter
 
 	void AAItemContainer::OnOpen(AController* user);
 
-	virtual void OnMousePressed(AController* user, FVector pos);
+	virtual void OnMousePressed(AController* user, FVector pos, FKey key);
 
-	virtual void OnMouseReleased(AController* user, FVector pos);
+	virtual void OnMouseReleased(AController* user, FVector pos, FKey key);
 
-	virtual void OnMouseReleased(AController* user, FVector pos, AActor * target);
+	virtual void OnMouseReleased(AController* user, FVector pos, AActor * target, FKey key);
 
-	virtual void OnMouseFocusedReleased(AController* user, FVector pos);
+	virtual void OnMouseFocusedReleased(AController* user, FVector pos, FKey key);
 	
 
 	virtual void OnMouseHoverIn(AController* user, FVector pos);
